@@ -26,7 +26,7 @@ public class TreeExercises {
 
     }
 
-    public static TreeSet<String> Question3(TreeSet<String> tree, TreeSet<String> Addtree){
+    public static void Question3(TreeSet<String> tree, TreeSet<String> Addtree){
         System.out.println("Question 3: Write a Java program to add all the elements of a specified tree set to another tree set.--------------------------------");
         System.out.println("Added " + Addtree + " to " + tree);
 
@@ -37,7 +37,6 @@ public class TreeExercises {
 
         System.out.println();
 
-        return tree;
     }
     public static void Question4(TreeSet<String> tree){
         System.out.println("Question 4: Write a Java program to create a reverse order view of the elements contained in a given tree set. ---------------------");
@@ -49,6 +48,7 @@ public class TreeExercises {
         Iterator iterator = tree.descendingIterator();
         while (iterator.hasNext())
             System.out.print(" " +iterator.next());
+        System.out.println();
         System.out.println();
     }
     public static void Question5(TreeSet<String> tree){
@@ -81,7 +81,7 @@ public class TreeExercises {
         System.out.println(treeColor);
         System.out.println();
         Question2(treeColor);
-        TreeSet<String> treeComb = Question3(treeColor, moreColors);
+        Question3(treeColor, moreColors);
         Question4(treeColor);
         Question5(treeColor);
 

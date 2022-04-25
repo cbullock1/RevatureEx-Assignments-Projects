@@ -64,15 +64,20 @@ public class HashExercises {
         students.add("Kevin");
         students.add("Nacer");
         students.add("Dovlet");
+
         System.out.println("Original HashSet");
         System.out.println(students);
         System.out.println();
+
         System.out.println("Question 1: Write a Java program to append the specified element to the end of a hash set.\n");
         appendToEnd(students);
+
         System.out.println("Question 2: Write a Java program to iterate through all elements in a hash list.\n");
         printItter(students);
+
         System.out.println("Question 3: Write a Java program to get the number of elements in a hash set.");
         getNumber(students);
+
         System.out.println("Question 4: Write a Java program to empty an hash set.\n");
         emptyHash(students);
     }
