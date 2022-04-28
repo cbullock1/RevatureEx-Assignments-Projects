@@ -67,6 +67,8 @@ public class IOExercises {
                     System.out.println(line);
                     line = bufferedReader.readLine();
                 }
+                bufferedReader.close();
+                fileIn.close();
 
             }
             else
@@ -85,6 +87,8 @@ public class IOExercises {
         for (int i = 0; i < 3; i++)
             System.out.println(fileLines.readLine());
         System.out.println();
+        fileLines.close();
+        fileIN.close();
     }
 
     static void longestWord() throws IOException {
@@ -109,6 +113,9 @@ public class IOExercises {
             }
             line = bufferedReader.readLine();
         }
+        bufferedReader.close();
+        fileIn.close();
+        
         System.out.println("The longest word is " + largest + " charater long");
         System.out.println("That word is: " + longest);
 
