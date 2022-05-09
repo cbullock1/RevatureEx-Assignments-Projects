@@ -18,12 +18,44 @@ public class Main {
         System.out.println();
     }
 
+    static boolean validate(Statement statement, String column, Object value) throws SQLException {
+
+        boolean exists = false;
+        String sql = null;
+
+        if(column == "id")
+            sql = "SELECT * FROM employee WHERE " + column +" = " + value.toString();
+
+        else
+            sql = "SELECT * From employee WHERE " + column + " = '" + value.toString() + "'";
+
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        if (resultSet.next())
+            exists = true;
+        return exists;
+    }
+
     static void insert(Statement statement) throws SQLException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Type ID, Name, email in this format id; name; email");
         int id = scanner.nextInt();
         String name = scanner.next();
         String email = scanner.next();
+
+        boolean id_exists = validate(statement,"id", id);
+        boolean email_exists = validate(statement, "email", email);
+
+        if(id_exists){
+            System.out.println("ID entered has already been used. Please restart process");
+            System.out.println();
+            return;
+        }
+        if (email_exists){
+            System.out.println("Email entered has already been used. Please restart process");
+            System.out.println();
+            return;
+        }
 
         String InsertSql = "INSERT INTO employee VALUES('"+ id+ "', '" + name + "', '" + email  + "')";
         int rows = statement.executeUpdate(InsertSql);
@@ -41,13 +73,22 @@ public class Main {
         String name;
         String email;
         String sql1 = "";
+        boolean id_exists = false;
+        boolean email_exists = false;
         boolean accept = false;
+
         while (!accept) {
             switch (choice) {
                 case 1:
                     System.out.println("Please type the id number to be change");
                     id = scanner.nextInt();
                     sql1 = "UPDATE employee SET id = " + id;
+                    id_exists = validate(statement,"id", id);
+                    if(id_exists){
+                        System.out.println("Id already exists. Returning to Main Menu");
+                        System.out.println();
+                        return;
+                    }
                     accept = true;
                     break;
                 case 2:
@@ -60,6 +101,12 @@ public class Main {
                     System.out.println("Please type the email to be change");
                     email = scanner.next();
                     sql1 = "UPDATE employee SET email = '" + email+"'";
+                    email_exists = validate(statement, "email", email);
+                    if(email_exists){
+                        System.out.println("Email already exists. Returning to Main Menu");
+                        System.out.println();
+                        return;
+                    }
                     accept = true;
                     break;
                 default:
@@ -74,35 +121,40 @@ public class Main {
         String refName;
         String refEmail;
         String sql2 = null;
+
+
+
         System.out.println("What values did you want to use for the Where");
         System.out.println("1. For id, 2. For name, 3. For email, other No where");
         int choice2 = scanner.nextInt();
-            switch (choice2) {
-                case 1:
-                    System.out.println("Please type the id number to be referenced");
-                    refId = scanner.nextInt();
-                    sql2 = " WHERE id = " + refId;
-                    break;
-                case 2:
-                    System.out.println("Please type the name to be referenced");
-                    refName = scanner.next();
-                    sql2 = " WHERE name = '" + refName+"'";
-                    break;
-                case 3:
-                    System.out.println("Please type the email to be referenced");
-                    refEmail = scanner.next();
-                    sql2 = " WHERE email = '" + refEmail+"'";
-                    break;
-                default:
-                    System.out.println("No where selected");
-            }
-            int rows = 0;
-            if(sql2 != null){
-                rows = statement.executeUpdate((sql1+sql2));
-            }
-            else {
-                rows = statement.executeUpdate(sql1);
-            }
+        switch (choice2) {
+            case 1:
+                System.out.println("Please type the id number to be referenced");
+                refId = scanner.nextInt();
+                sql2 = " WHERE id = " + refId;
+                break;
+            case 2:
+                System.out.println("Please type the name to be referenced");
+                refName = scanner.next();
+                sql2 = " WHERE name = '" + refName+"'";
+                break;
+            case 3:
+                System.out.println("Please type the email to be referenced");
+                refEmail = scanner.next();
+                sql2 = " WHERE email = '" + refEmail+"'";
+                break;
+            default:
+                System.out.println("No where selected");
+        }
+
+
+        int rows = 0;
+        if(sql2 != null){
+            rows = statement.executeUpdate((sql1+sql2));
+        }
+        else {
+            rows = statement.executeUpdate(sql1);
+        }
 
         System.out.println("Rows affected: " + rows);
         System.out.println();
